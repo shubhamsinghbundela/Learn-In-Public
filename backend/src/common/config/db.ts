@@ -4,7 +4,6 @@ import dns from "dns";
 dns.setServers(["1.1.1.1", "8.8.8.8"]);
 
 const url: string | undefined = process.env.DATABASE_URL;
-console.log(url);
 
 const connectDB = async () => {
   if (url) {
