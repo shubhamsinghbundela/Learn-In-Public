@@ -2,6 +2,7 @@ import ApiError from "../../common/utils/api-error";
 import {
   generateAccessToken,
   generateRefreshToken,
+  verifyRefreshToken,
 } from "../../common/utils/jwt.ts";
 import userModel from "./auth.model.ts";
 import type { SigninInput, SignupInput } from "./auth.types.ts";
@@ -67,4 +68,49 @@ const signin = async ({ username, password }: SigninInput) => {
   }
 };
 
-export { signup, signin };
+const refresh = async (token: string) => {
+  if (!token) {
+    throw ApiError.unauthorized("Refresh token missing");
+  }
+
+  const decoded = verifyRefreshToken(token);
+
+  const userExists = await userModel.findOne({
+    _id: decoded.userId,
+  });
+
+  if (!userExists) {
+    throw ApiError.notFound("User Not found");
+  }
+
+  const accessToken = generateAccessToken({
+    userId: userExists._id,
+  });
+
+  return { accessToken };
+};
+
+const getMe = async (userId: string) => {
+  if (!userId) {
+    throw ApiError.notFound("user not found");
+  }
+
+  const userExist = await userModel.findOne({
+    _id: userId,
+  });
+
+  if (!userExist) {
+    throw ApiError.notFound("User Not found");
+  }
+
+  return {
+    user: {
+      userId: userExist._id,
+      firstName: userExist.firstName,
+      lastName: userExist.lastName,
+      username: userExist.username,
+    },
+  };
+};
+
+export { signup, signin, refresh, getMe };

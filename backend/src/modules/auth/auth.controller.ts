@@ -1,6 +1,11 @@
 import { type Request, type Response, type NextFunction } from "express";
 import ApiResponse from "../../common/utils/api-response.ts";
 import * as userService from "./auth.service.ts";
+import ApiError from "../../common/utils/api-error.ts";
+
+interface AuthRequest extends Request {
+  userId?: string;
+}
 
 const signup = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -29,4 +34,37 @@ const signin = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export { signup, signin };
+const refresh = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { accessToken } = await userService.refresh(req.cookies.refreshToken);
+    ApiResponse.created(res, "Token refreshed successfully", { accessToken });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getMe = async (req: AuthRequest, res: Response, next: NextFunction) => {
+  try {
+    const userId = req.userId;
+    if (!userId) {
+      throw ApiError.unauthorized("Unauthorized User");
+    }
+    const { user } = await userService.getMe(userId);
+
+    ApiResponse.ok(res, "User get successfully", { user });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const logout = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    res.clearCookie("refreshToken");
+
+    ApiResponse.ok(res, "Logout Success");
+  } catch (error) {
+    next(error);
+  }
+};
+
+export { signup, signin, refresh, getMe, logout };
