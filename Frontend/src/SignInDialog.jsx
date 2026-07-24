@@ -32,11 +32,13 @@ export default function SignInDialog({ open, onOpenChange }) {
             </div>
           </div>
 
-          <DialogFooter className="flex justify-between px-6 pb-6">
-            <Button variant="ghost">Create New Account</Button>
+          <div className="flex items-center justify-between border-t px-6 py-4">
+            <Button variant="ghost" className="p-0">
+              Create New Account
+            </Button>
 
             <Button>Login</Button>
-          </DialogFooter>
+          </div>
         </Card>
       </DialogContent>
     </Dialog>
