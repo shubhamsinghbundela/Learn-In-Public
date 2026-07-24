@@ -1,20 +1,38 @@
+import { useState } from "react";
 import "./App.css";
+import { Button } from "./components/ui/button";
+// import SignInDialog from "./SignInDialog";
 
 function App() {
+  const [open, setOpen] = useState(false);
   return (
-    <div className="container">
-      <div className="content">
-        <nav className="navbar">
-          <div className="navbar-logo">
-            <img src="/fa-logo-blue-bg.svg" alt="Logo" />
-          </div>
+    <>
+      <div className="min-h-screen bg-white border border-red-500">
+        <div className="mx-auto max-w-6xl px-6 border-black">
+          <header className="flex h-20 items-center justify-between border-b">
+            <div className="flex items-center gap-3">
+              <img
+                src="/fa-logo-blue-bg.svg"
+                alt="Team Shiksha"
+                className="h-9 w-9 rounded-md"
+              />
 
-          <div className="navbar-actions">
-            <button className="login-btn">Login</button>
-          </div>
-        </nav>
+              <h1 className="text-2xl font-bold tracking-tight text-[#1c398e]">
+                Team Shiksha
+              </h1>
+            </div>
+
+            <Button
+              onClick={() => setOpen(true)}
+              className="bg-[#1c398e] hover:bg-[#162d72] text-white px-6 h-11"
+            >
+              Sign in
+            </Button>
+          </header>
+        </div>
       </div>
-    </div>
+      {/* <SignInDialog open={open} onOpenChange={setOpen} /> */}
+    </>
   );
 }
 
