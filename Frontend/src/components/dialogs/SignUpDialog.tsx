@@ -3,6 +3,10 @@ import CommonDialog from "@/components/common/CommonDialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useState } from "react";
+import { signupUser } from "@/api/api";
+import { showToast } from "@/utils/toast";
+import { useLoadingStore } from "@/store/loadingStore";
 
 interface SignUpForm {
   firstName: string;
@@ -28,14 +32,28 @@ export default function SignUpDialog({
     formState: { errors },
     reset,
   } = useForm<SignUpForm>();
+  // const [loading, setLoading] = useState(false);
 
-  const onSubmit = (data: SignUpForm) => {
-    console.log(data);
+  const startLoading = useLoadingStore((state) => state.startLoading);
+  const stopLoading = useLoadingStore((state) => state.stopLoading);
+  const onSubmit = async (data: SignUpForm) => {
+    try {
+      startLoading();
 
-    // TODO: Call your signup API
+      await signupUser(data);
 
-    reset();
-    onOpenChange(false);
+      showToast.success("Account Created", "You can now sign in.");
+
+      reset();
+      onOpenChange(false);
+    } catch (err: any) {
+      showToast.error(
+        "Signup Failed",
+        err.response?.data?.message ?? "Something went wrong",
+      );
+    } finally {
+      stopLoading();
+    }
   };
 
   return (
