@@ -1,57 +1,39 @@
 import { useState } from "react";
 import "./App.css";
 import Header from "./components/Header";
+import SignInDialog from "./components/dialogs/SignInDialog";
+import SignUpDialog from "./components/dialogs/SignUpDialog";
 
 function App() {
-  const [open, setOpen] = useState(false);
+  const [signInOpen, setSignInOpen] = useState(false);
+  const [signUpOpen, setSignUpOpen] = useState(false);
   return (
     <>
       <div className="min-h-screen bg-white">
         <Header
-          onSignIn={() => setOpen(true)}
+          onSignIn={() => setSignInOpen(true)}
           onAddLearning={() => console.log("Add Learning")}
           onCreateGoal={() => console.log("Create Goal")}
         />
       </div>
-      {/* <CommonDialog
-        open={open}
-        onOpenChange={setOpen}
-        title="Sign In"
-        leftButton={
-          <Button variant="ghost" className="p-0">
-            Create New Account
-          </Button>
-        }
-        rightButton={<Button>Login</Button>}
-      >
-        <div className="space-y-4">
-          <div className="space-y-2">
-            <Label>Email</Label>
-            <Input />
-          </div>
 
-          <div className="space-y-2">
-            <Label>Password</Label>
-            <Input type="password" />
-          </div>
-        </div>
-      </CommonDialog> */}
+      <SignInDialog
+        open={signInOpen}
+        onOpenChange={setSignInOpen}
+        onCreateAccount={() => {
+          setSignInOpen(false);
+          setSignUpOpen(true);
+        }}
+      />
 
-      {/* <CommonDialog
-        open={open}
-        onOpenChange={setOpen}
-        title="Sign Up"
-        leftButton={<Button variant="ghost">Already have an account?</Button>}
-        rightButton={<Button>Login</Button>}
-      >
-        <div className="space-y-4">
-          <Input placeholder="First Name" />
-          <Input placeholder="Last Name" />
-          <Input placeholder="Username" />
-          <Input placeholder="Email" />
-          <Input placeholder="Password" />
-        </div>
-      </CommonDialog> */}
+      <SignUpDialog
+        open={signUpOpen}
+        onOpenChange={setSignUpOpen}
+        onSignInClick={() => {
+          setSignUpOpen(false);
+          setSignInOpen(true);
+        }}
+      />
 
       {/* <CommonDialog
         open={open}
