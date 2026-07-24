@@ -7,7 +7,11 @@ function App() {
   return (
     <>
       <div className="min-h-screen bg-white">
-        <Header onSignIn={() => setOpen(true)} />
+        <Header
+          onSignIn={() => setOpen(true)}
+          onAddLearning={() => console.log("Add Learning")}
+          onCreateGoal={() => console.log("Create Goal")}
+        />
       </div>
       {/* <CommonDialog
         open={open}
