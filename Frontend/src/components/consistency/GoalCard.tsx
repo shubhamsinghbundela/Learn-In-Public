@@ -2,10 +2,10 @@ import { cn } from "@/lib/utils";
 import { useState } from "react";
 
 interface Goal {
-  id: number;
+  _id: string;
   title: string;
   description: string;
-  progress: number;
+  completed: boolean;
 }
 
 export default function GoalCard({ goal }: { goal: Goal }) {
@@ -26,6 +26,15 @@ export default function GoalCard({ goal }: { goal: Goal }) {
         <div className="flex-1">
           <div className="flex items-center justify-between">
             <h4 className="font-semibold">{goal.title}</h4>
+            {/* <span
+              className={`rounded-full px-2 py-1 text-xs ${
+                goal.completed
+                  ? "bg-green-100 text-green-700"
+                  : "bg-yellow-100 text-yellow-700"
+              }`}
+            >
+              {goal.completed ? "Completed" : "Pending"}
+            </span> */}
           </div>
 
           <div

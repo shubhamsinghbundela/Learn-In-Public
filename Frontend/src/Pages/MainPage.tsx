@@ -23,10 +23,21 @@ export default function MainPage() {
   const removeUser = useUserStore((state) => state.removeUser);
 
   const setDashboard = useDashboardStore((state) => state.setDashboard);
+  const user = useUserStore((state) => state.user);
+
+  const clearDashboard = useDashboardStore((state) => state.clearDashboard);
 
   useEffect(() => {
     fetchUser();
   }, []);
+
+  useEffect(() => {
+    if (user) {
+      fetchDashboard();
+    } else {
+      clearDashboard();
+    }
+  }, [user]);
 
   const fetchDashboard = async () => {
     try {
