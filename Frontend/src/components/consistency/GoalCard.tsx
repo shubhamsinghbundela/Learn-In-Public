@@ -25,7 +25,7 @@ export default function GoalCard({ goal }: { goal: Goal }) {
       <div className="flex items-start justify-between gap-4">
         <div className="flex-1">
           <div className="flex items-center justify-between">
-            <h4 className="font-semibold">{goal.title}</h4>
+            <h4 className="font-semibold text-[#1c398e]">{goal.title}</h4>
             {/* <span
               className={`rounded-full px-2 py-1 text-xs ${
                 goal.completed
@@ -49,7 +49,7 @@ export default function GoalCard({ goal }: { goal: Goal }) {
           {isLong && (
             <button
               onClick={() => setExpanded((prev) => !prev)}
-              className="mt-2 text-sm font-medium text-blue-600 hover:underline"
+              className="mt-2 text-sm font-medium text-[#1c398e] hover:underline"
             >
               {expanded ? "Show less" : "Read more"}
             </button>

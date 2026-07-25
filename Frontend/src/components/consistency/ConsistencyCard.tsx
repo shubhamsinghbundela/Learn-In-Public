@@ -49,8 +49,8 @@ export default function ConsistencyCard() {
     <div className="flex h-[650px] flex-col rounded-xl border bg-white shadow-sm">
       {/* Header */}
       <div className="flex items-center gap-2 border-b p-5">
-        <Flame className="h-5 w-5 text-orange-500" />
-        <h2 className="text-xl font-semibold">Consistency</h2>
+        <Flame className="h-5 w-5 text-[#1c398e]" />
+        <h2 className="text-xl font-semibold text-[#1c398e]">Consistency</h2>
       </div>
 
       {/* Streak */}
@@ -59,7 +59,7 @@ export default function ConsistencyCard() {
           title="Current Streak"
           value={currentStreak}
           subtitle="Keep it going! 🔥"
-          color="text-green-600"
+          color="text-[#1c398e]"
           ring="border-green-500"
         />
 
@@ -67,7 +67,7 @@ export default function ConsistencyCard() {
           title="Longest Streak"
           value={longestStreak}
           subtitle="Best record so far! 🎉"
-          color="text-purple-600"
+          color="text-[#1c398e]"
           ring="border-purple-500"
         />
       </div>
@@ -75,13 +75,15 @@ export default function ConsistencyCard() {
       {/* Goals */}
       <div className="flex flex-1 flex-col border-t min-h-0">
         <div className="flex items-center gap-2 border-b p-5 shrink-0">
-          <Target className="h-5 w-5 text-red-500" />
-          <h3 className="text-lg font-semibold">Today's Goals</h3>
+          <Target className="h-5 w-5 text-[#1c398e]" />
+          <h3 className="text-lg font-semibold text-[#1c398e]">
+            Today's Goals
+          </h3>
         </div>
 
         <div className="flex-1 overflow-y-auto">
           {goals.length === 0 ? (
-            <div className="flex h-full items-center justify-center text-sm text-muted-foreground">
+            <div className="flex h-full items-center justify-center text-sm text-[#1c398e]">
               No goals created yet.
             </div>
           ) : (

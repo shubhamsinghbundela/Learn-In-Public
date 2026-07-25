@@ -71,10 +71,12 @@ export default function TodayLearningCard() {
   const todayLearnings = useDashboardStore((state) => state.todayLearnings);
   return (
     <div className="mx-auto rounded-xl border bg-white shadow-sm">
-      <div className="flex items-center gap-2 border-b pl-5 pt-2 pb-3">
+      <div className="flex items-center gap-2 border-b border-[#1c398e]/20 pl-5 pt-2 pb-3">
         <div>
-          <h2 className="text-xl font-semibold">Today's Learning</h2>
-          <p className="text-sm text-muted-foreground">
+          <h2 className="text-xl font-semibold text-[#1c398e]">
+            Today's Learning
+          </h2>
+          <p className="text-sm text-[#1c398e]/70">
             {new Date().toDateString()}
           </p>
         </div>
@@ -82,7 +84,7 @@ export default function TodayLearningCard() {
 
       <div className="h-[579px] overflow-y-auto">
         {todayLearnings.length === 0 ? (
-          <div className="flex h-full items-center justify-center text-sm text-muted-foreground">
+          <div className="flex h-full items-center justify-center text-sm text-[#1c398e]">
             No learning added today.
           </div>
         ) : (

@@ -32,7 +32,7 @@ export default function LearningCard({
     <div className="border-b p-5 last:border-b-0">
       <div className="flex items-start justify-between gap-4">
         <div className="flex-1">
-          <h3 className="text-base font-semibold">{title}</h3>
+          <h3 className="text-base font-semibold text-[#1c398e]">{title}</h3>
 
           <div
             className={cn(
@@ -46,14 +46,14 @@ export default function LearningCard({
           {isLong && (
             <button
               onClick={() => setExpanded((prev) => !prev)}
-              className="mt-2 text-sm font-medium text-blue-600 hover:underline"
+              className="mt-2 text-sm font-medium text-[#1c398e] hover:underline"
             >
               {expanded ? "Show less" : "Read more"}
             </button>
           )}
         </div>
 
-        <span className="shrink-0 text-sm text-muted-foreground">
+        <span className="shrink-0 text-sm font-medium text-[#1c398e]/70">
           {formattedTime}
         </span>
       </div>
