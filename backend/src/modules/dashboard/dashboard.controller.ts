@@ -7,6 +7,10 @@ interface AuthRequest extends Request {
   userId?: string;
 }
 
+interface PublicDashboardParams {
+  username: string;
+}
+
 const getDashboard = async (
   req: AuthRequest,
   res: Response,
@@ -32,4 +36,26 @@ const getDashboard = async (
   }
 };
 
-export { getDashboard };
+const getPublicDashboard = async (
+  req: Request<PublicDashboardParams>,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const { username } = req.params;
+    const { date } = req.query;
+    if (typeof date !== "string") {
+      throw ApiError.badRequest("Date is required");
+    }
+    const dashboard = await dashboardService.getPublicDashboard({
+      username,
+      date: date as string,
+    });
+
+    ApiResponse.ok(res, "Public dashboard fetched successfully", dashboard);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export { getDashboard, getPublicDashboard };

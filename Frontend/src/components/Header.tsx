@@ -8,7 +8,7 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "./ui/avatar";
-import { LogOut } from "lucide-react";
+import { Copy, LogOut } from "lucide-react";
 import { logout } from "@/api/api";
 import { showToast } from "@/utils/toast";
 
@@ -37,6 +37,23 @@ export default function Header({
       removeUser();
     }
   };
+
+  const handleCopyProfile = async () => {
+    if (!user) return;
+
+    const url = `${window.location.origin}/${user.username}`;
+
+    try {
+      await navigator.clipboard.writeText(url);
+
+      showToast.success(
+        "Profile link copied!",
+        "Share your learning journey with others.",
+      );
+    } catch {
+      showToast.error("Copy failed", "Unable to copy profile link.");
+    }
+  };
   return (
     <div className="mx-auto max-w-6xl px-6">
       <header className="flex h-20 items-center justify-between border-b">
@@ -55,6 +72,16 @@ export default function Header({
 
         {/* Actions */}
         <div className="flex items-center gap-3">
+          {token && user && (
+            <Button
+              variant="outline"
+              onClick={handleCopyProfile}
+              className="border-[#1c398e] text-[#1c398e] hover:bg-[#1c398e] hover:text-white"
+            >
+              <Copy className="mr-2 h-4 w-4" />
+              Share Profile
+            </Button>
+          )}
           <Button
             variant="outline"
             onClick={onAddLearning}
