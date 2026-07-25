@@ -58,6 +58,7 @@ export default function CreateGoalDialog({ open, onOpenChange }: Props) {
       onOpenChange={onOpenChange}
       title="Create Goal"
       maxWidth="sm:max-w-xl"
+      leftButton={<div />}
       rightButton={
         <Button
           type="submit"
