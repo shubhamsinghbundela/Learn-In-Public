@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Header from "@/components/Header";
 import SignInDialog from "@/components/dialogs/SignInDialog";
 import SignUpDialog from "@/components/dialogs/SignUpDialog";
-import { getMe } from "@/api/api";
+import { getDashboard, getMe } from "@/api/api";
 import { useUserStore } from "@/store/userStore";
 import { clearTokens, getAccessToken } from "@/utils/token";
 import AddLearningDialog from "@/components/dialogs/AddLearningDialog";
@@ -11,6 +11,7 @@ import CreateGoalDialog from "@/components/dialogs/CreateGoalDialog";
 import { showToast } from "@/utils/toast";
 import TodayLearningCard from "@/components/learning/TodayLearningCard";
 import ConsistencyCard from "@/components/consistency/ConsistencyCard";
+import { useDashboardStore } from "@/store/dashboardStore";
 
 export default function MainPage() {
   const [signInOpen, setSignInOpen] = useState(false);
@@ -21,9 +22,28 @@ export default function MainPage() {
   const addUser = useUserStore((state) => state.addUser);
   const removeUser = useUserStore((state) => state.removeUser);
 
+  const setDashboard = useDashboardStore((state) => state.setDashboard);
+
   useEffect(() => {
     fetchUser();
   }, []);
+
+  const fetchDashboard = async () => {
+    try {
+      const today = new Date().toISOString();
+
+      const res = await getDashboard(today);
+
+      setDashboard({
+        currentStreak: res.data.streak.currentStreak,
+        longestStreak: res.data.streak.longestStreak,
+        todayLearnings: res.data.todayLearnings,
+        goals: res.data.goals,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const fetchUser = async () => {
     const token = getAccessToken();
@@ -34,7 +54,9 @@ export default function MainPage() {
       const res = await getMe();
 
       addUser(res.data.user);
-    } catch (error) {
+
+      await fetchDashboard();
+    } catch {
       clearTokens();
       removeUser();
     }

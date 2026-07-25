@@ -45,3 +45,13 @@ export const createGoal = async (data: {
 }) => {
   return api.post("/goal/createGoal", data);
 };
+
+export const getDashboard = async (date: string) => {
+  const res = await api.get("/dashboard", {
+    params: {
+      date,
+    },
+  });
+
+  return res.data;
+};
