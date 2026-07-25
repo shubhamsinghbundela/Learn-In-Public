@@ -16,4 +16,11 @@ export const showToast = {
       description,
     });
   },
+  info(title: string, description?: string) {
+    toast.add({
+      type: "info",
+      title,
+      description,
+    });
+  },
 };

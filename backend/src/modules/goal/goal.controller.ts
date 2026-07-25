@@ -20,6 +20,7 @@ const createGoal = async (
     const goal = await goalService.createGoal({
       userId,
       title: req.body.title,
+      description: req.body.description,
     });
 
     ApiResponse.created(res, "Goal created successfully", goal);

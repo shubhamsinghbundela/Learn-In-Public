@@ -38,3 +38,10 @@ export const addLearning = async (data: {
 }) => {
   return api.post("/learning/addLearning", data);
 };
+
+export const createGoal = async (data: {
+  title: string;
+  description: string;
+}) => {
+  return api.post("/goal/createGoal", data);
+};

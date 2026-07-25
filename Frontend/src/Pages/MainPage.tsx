@@ -7,11 +7,14 @@ import { getMe } from "@/api/api";
 import { useUserStore } from "@/store/userStore";
 import { clearTokens, getAccessToken } from "@/utils/token";
 import AddLearningDialog from "@/components/dialogs/addLearningDialog";
+import CreateGoalDialog from "@/components/dialogs/CreateGoalDialog";
+import { showToast } from "@/utils/toast";
 
 export default function MainPage() {
   const [signInOpen, setSignInOpen] = useState(false);
   const [signUpOpen, setSignUpOpen] = useState(false);
   const [addLearningOpen, setAddLearningOpen] = useState(false);
+  const [createGoalOpen, setCreateGoalOpen] = useState(false);
 
   const addUser = useUserStore((state) => state.addUser);
   const removeUser = useUserStore((state) => state.removeUser);
@@ -35,13 +38,40 @@ export default function MainPage() {
     }
   };
 
+  const handleAddLearning = () => {
+    const token = getAccessToken();
+
+    if (!token) {
+      showToast.info(
+        "Sign in required",
+        "Please sign in to add your learning.",
+      );
+      setSignInOpen(true);
+      return;
+    }
+
+    setAddLearningOpen(true);
+  };
+
+  const handleCreateGoal = () => {
+    const token = getAccessToken();
+
+    if (!token) {
+      showToast.info("Sign in required", "Please sign in to create a goal.");
+      setSignInOpen(true);
+      return;
+    }
+
+    setCreateGoalOpen(true);
+  };
+
   return (
     <>
       <div className="min-h-screen bg-white">
         <Header
           onSignIn={() => setSignInOpen(true)}
-          onAddLearning={() => setAddLearningOpen(true)}
-          onCreateGoal={() => {}}
+          onAddLearning={handleAddLearning}
+          onCreateGoal={handleCreateGoal}
         />
       </div>
 
@@ -66,6 +96,11 @@ export default function MainPage() {
       <AddLearningDialog
         open={addLearningOpen}
         onOpenChange={setAddLearningOpen}
+      />
+
+      <CreateGoalDialog
+        open={createGoalOpen}
+        onOpenChange={setCreateGoalOpen}
       />
     </>
   );
