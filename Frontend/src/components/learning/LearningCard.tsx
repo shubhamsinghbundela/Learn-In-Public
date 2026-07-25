@@ -14,6 +14,12 @@ export default function LearningCard({
 }: LearningCardProps) {
   const [expanded, setExpanded] = useState(false);
 
+  const formattedTime = new Date(createdAt).toLocaleTimeString("en-IN", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  });
+
   const MAX_LENGTH = 180;
   const isLong = description.length > MAX_LENGTH;
 
@@ -48,7 +54,7 @@ export default function LearningCard({
         </div>
 
         <span className="shrink-0 text-sm text-muted-foreground">
-          {createdAt}
+          {formattedTime}
         </span>
       </div>
     </div>

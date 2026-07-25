@@ -4,6 +4,7 @@ interface Learning {
   _id: string;
   title: string;
   description: string;
+  createdAt: string;
 }
 
 interface Goal {
