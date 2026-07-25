@@ -29,6 +29,7 @@ export default function SignInDialog({
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<SignInForm>();
 
   const addUser = useUserStore((state) => state.addUser);
@@ -48,6 +49,7 @@ export default function SignInDialog({
         `Welcome back ${res.data.user.firstName}!`,
       );
 
+      reset();
       onOpenChange(false);
     } catch (err: any) {
       showToast.error(
