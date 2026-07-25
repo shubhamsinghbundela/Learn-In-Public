@@ -1,7 +1,15 @@
 import { z } from "zod";
 
 const learningSchema = z.object({
-  body: z.string().min(1, "Learning is required"),
+  title: z
+    .string()
+    .min(1, "Title is required")
+    .max(100, "Title cannot exceed 100 characters"),
+
+  description: z
+    .string()
+    .min(1, "Description is required")
+    .max(2000, "Description cannot exceed 2000 characters"),
 });
 
 export { learningSchema };

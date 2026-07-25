@@ -19,7 +19,8 @@ const addLearning = async (
     }
     const learningData = await learningService.addLearning({
       userId,
-      body: req.body.body,
+      title: req.body.title,
+      description: req.body.description,
     });
 
     ApiResponse.created(res, "Added learning", learningData);

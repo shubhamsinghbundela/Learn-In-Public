@@ -8,12 +8,22 @@ const learningSchema = new mongoose.Schema(
       required: true,
       index: true,
     },
-    body: {
+
+    title: {
       type: String,
+      required: true,
+      trim: true,
+    },
+
+    description: {
+      type: String,
+      required: true,
       trim: true,
     },
   },
-  { timestamps: true },
+  {
+    timestamps: true,
+  },
 );
 
 const learningModel = mongoose.model("learning", learningSchema);

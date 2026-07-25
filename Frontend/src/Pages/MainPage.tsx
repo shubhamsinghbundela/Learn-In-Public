@@ -6,10 +6,12 @@ import SignUpDialog from "@/components/dialogs/SignUpDialog";
 import { getMe } from "@/api/api";
 import { useUserStore } from "@/store/userStore";
 import { clearTokens, getAccessToken } from "@/utils/token";
+import AddLearningDialog from "@/components/dialogs/addLearningDialog";
 
 export default function MainPage() {
   const [signInOpen, setSignInOpen] = useState(false);
   const [signUpOpen, setSignUpOpen] = useState(false);
+  const [addLearningOpen, setAddLearningOpen] = useState(false);
 
   const addUser = useUserStore((state) => state.addUser);
   const removeUser = useUserStore((state) => state.removeUser);
@@ -38,7 +40,7 @@ export default function MainPage() {
       <div className="min-h-screen bg-white">
         <Header
           onSignIn={() => setSignInOpen(true)}
-          onAddLearning={() => {}}
+          onAddLearning={() => setAddLearningOpen(true)}
           onCreateGoal={() => {}}
         />
       </div>
@@ -59,6 +61,11 @@ export default function MainPage() {
           setSignUpOpen(false);
           setSignInOpen(true);
         }}
+      />
+
+      <AddLearningDialog
+        open={addLearningOpen}
+        onOpenChange={setAddLearningOpen}
       />
     </>
   );

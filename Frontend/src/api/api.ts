@@ -31,3 +31,10 @@ export const logout = async () => {
   const res = await api.post("/auth/logout");
   return res.data;
 };
+
+export const addLearning = async (data: {
+  title: string;
+  description: string;
+}) => {
+  return api.post("/learning/addLearning", data);
+};

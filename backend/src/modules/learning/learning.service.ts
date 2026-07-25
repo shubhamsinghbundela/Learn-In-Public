@@ -2,7 +2,8 @@ import learningModel from "./learning.model";
 
 interface AddLearningInput {
   userId: string;
-  body: string;
+  title: string;
+  description: string;
 }
 
 const addLearning = async (data: AddLearningInput) => {
