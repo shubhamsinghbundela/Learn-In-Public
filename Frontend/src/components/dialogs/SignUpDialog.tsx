@@ -3,7 +3,6 @@ import CommonDialog from "@/components/common/CommonDialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useState } from "react";
 import { signupUser } from "@/api/api";
 import { showToast } from "@/utils/toast";
 import { useLoadingStore } from "@/store/loadingStore";
@@ -32,7 +31,6 @@ export default function SignUpDialog({
     formState: { errors },
     reset,
   } = useForm<SignUpForm>();
-  // const [loading, setLoading] = useState(false);
 
   const startLoading = useLoadingStore((state) => state.startLoading);
   const stopLoading = useLoadingStore((state) => state.stopLoading);
@@ -46,11 +44,14 @@ export default function SignUpDialog({
 
       reset();
       onOpenChange(false);
+      if (onSignInClick) {
+        onSignInClick();
+      } else {
+        onOpenChange(false);
+      }
     } catch (err: any) {
-      showToast.error(
-        "Signup Failed",
-        err.response?.data?.message ?? "Something went wrong",
-      );
+      console.log(err);
+      showToast.error("Signup Failed", "Something went wrong");
     } finally {
       stopLoading();
     }

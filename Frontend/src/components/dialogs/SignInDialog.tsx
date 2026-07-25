@@ -3,6 +3,11 @@ import CommonDialog from "@/components/common/CommonDialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useUserStore } from "@/store/userStore";
+import { showToast } from "@/utils/toast";
+import { signinUser } from "@/api/api";
+import { useLoadingStore } from "@/store/loadingStore";
+import { setAccessToken } from "@/utils/token";
 
 interface SignInForm {
   username: string;
@@ -26,8 +31,32 @@ export default function SignInDialog({
     formState: { errors },
   } = useForm<SignInForm>();
 
-  const onSubmit = (data: SignInForm) => {
-    console.log(data);
+  const addUser = useUserStore((state) => state.addUser);
+  const startLoading = useLoadingStore((state) => state.startLoading);
+  const stopLoading = useLoadingStore((state) => state.stopLoading);
+
+  const onSubmit = async (data: SignInForm) => {
+    try {
+      startLoading();
+      const res = await signinUser(data);
+      addUser(res.data.user);
+
+      setAccessToken(res.data.accessToken);
+
+      showToast.success(
+        "Login Successful",
+        `Welcome back ${res.data.user.firstName}!`,
+      );
+
+      onOpenChange(false);
+    } catch (err: any) {
+      showToast.error(
+        "Login Failed",
+        err.response?.data?.message ?? "Invalid credentials",
+      );
+    } finally {
+      stopLoading();
+    }
   };
 
   return (

@@ -1,4 +1,16 @@
 import { Button } from "@/components/ui/button";
+import { useUserStore } from "@/store/userStore";
+import { clearTokens, getAccessToken } from "@/utils/token";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
+import { Avatar, AvatarFallback } from "./ui/avatar";
+import { LogOut } from "lucide-react";
+import { logout } from "@/api/api";
+import { showToast } from "@/utils/toast";
 
 interface HeaderProps {
   onSignIn: () => void;
@@ -11,6 +23,20 @@ export default function Header({
   onAddLearning,
   onCreateGoal,
 }: HeaderProps) {
+  const user = useUserStore((state) => state.user);
+  const token = getAccessToken();
+  const removeUser = useUserStore((state) => state.removeUser);
+  const handleLogout = async () => {
+    try {
+      await logout();
+      showToast.success("Logged Out", "See you again!");
+    } catch (error) {
+      // Ignore API errors
+    } finally {
+      clearTokens();
+      removeUser();
+    }
+  };
   return (
     <div className="mx-auto max-w-6xl px-6">
       <header className="flex h-20 items-center justify-between border-b">
@@ -45,13 +71,35 @@ export default function Header({
             Create Goal
           </Button>
 
-          <Button
-            variant="outline"
-            onClick={onSignIn}
-            className="border-[#1c398e] text-[#1c398e] hover:bg-[#1c398e] hover:text-white"
-          >
-            Sign In
-          </Button>
+          {token && user ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <Avatar className="cursor-pointer border-1 border-[#1c398e]">
+                  <AvatarFallback className="bg-white text-[#1c398e]">
+                    {`${user.firstName[0]}${user.lastName[0]}`}
+                  </AvatarFallback>
+                </Avatar>
+              </DropdownMenuTrigger>
+
+              <DropdownMenuContent className="w-44 border-[#1c398e]">
+                <DropdownMenuItem
+                  onClick={handleLogout}
+                  className="cursor-pointer text-[#1c398e] focus:bg-[#1c398e] focus:text-white"
+                >
+                  <LogOut />
+                  Logout
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <Button
+              variant="outline"
+              onClick={onSignIn}
+              className="border-[#1c398e] text-[#1c398e] hover:bg-[#1c398e] hover:text-white"
+            >
+              Sign In
+            </Button>
+          )}
         </div>
       </header>
     </div>

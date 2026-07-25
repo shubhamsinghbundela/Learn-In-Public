@@ -10,6 +10,6 @@ router.post("/signup", validateData(authSignupSchema), controller.signup);
 router.post("/signin", validateData(authSigninSchema), controller.signin);
 router.post("/refresh", controller.refresh);
 router.get("/getme", authMiddleware, controller.getMe);
-router.get("/logout", authMiddleware, controller.logout);
+router.post("/logout", authMiddleware, controller.logout);
 
 export default router;
