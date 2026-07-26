@@ -15,9 +15,14 @@ interface AddLearningForm {
 interface Props {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  onSuccess: () => void;
 }
 
-export default function AddLearningDialog({ open, onOpenChange }: Props) {
+export default function AddLearningDialog({
+  open,
+  onOpenChange,
+  onSuccess,
+}: Props) {
   const {
     register,
     handleSubmit,
@@ -33,6 +38,8 @@ export default function AddLearningDialog({ open, onOpenChange }: Props) {
       startLoading();
 
       await addLearning(data);
+
+      await onSuccess();
 
       showToast.success("Learning Added", "Your learning has been published.");
 

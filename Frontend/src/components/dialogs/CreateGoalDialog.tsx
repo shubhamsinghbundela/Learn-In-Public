@@ -16,9 +16,14 @@ interface CreateGoalForm {
 interface Props {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  onSuccess: () => void;
 }
 
-export default function CreateGoalDialog({ open, onOpenChange }: Props) {
+export default function CreateGoalDialog({
+  open,
+  onOpenChange,
+  onSuccess,
+}: Props) {
   const {
     register,
     handleSubmit,
@@ -34,6 +39,8 @@ export default function CreateGoalDialog({ open, onOpenChange }: Props) {
       startLoading();
 
       await createGoal(data);
+
+      await onSuccess();
 
       showToast.success(
         "Goal Created",

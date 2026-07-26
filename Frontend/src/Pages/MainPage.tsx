@@ -171,11 +171,13 @@ export default function MainPage() {
       <AddLearningDialog
         open={addLearningOpen}
         onOpenChange={setAddLearningOpen}
+        onSuccess={fetchDashboard}
       />
 
       <CreateGoalDialog
         open={createGoalOpen}
         onOpenChange={setCreateGoalOpen}
+        onSuccess={fetchDashboard}
       />
     </>
   );
