@@ -39,7 +39,7 @@ const userSchema = new mongoose.Schema(
     },
 
     lastLearningDate: {
-      type: Date,
+      type: String,
       default: null,
     },
   },
