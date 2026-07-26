@@ -1,5 +1,6 @@
 import { useDashboardStore } from "@/store/dashboardStore";
 import { ActivityCalendar } from "react-activity-calendar";
+import "react-activity-calendar/tooltips.css";
 
 export default function ContributionGraph() {
   const fallback = [
@@ -31,6 +32,31 @@ export default function ContributionGraph() {
         theme={{
           light: ["#ebedf0", "#d6e4ff", "#91b4ff", "#4d7cff", "#1c398e"],
           dark: ["#161b22", "#d6e4ff", "#91b4ff", "#4d7cff", "#1c398e"],
+        }}
+        tooltips={{
+          activity: {
+            text: ({ count, date }) => {
+              const formattedDate = new Date(date).toLocaleDateString("en-IN", {
+                day: "numeric",
+                month: "long",
+                year: "numeric",
+              });
+
+              if (count === 0) {
+                return `No learning on ${formattedDate}`;
+              }
+
+              return `${count} learning${count > 1 ? "s" : ""} on ${formattedDate}`;
+            },
+            placement: "right",
+            offset: 8,
+            hoverRestMs: 200,
+            transitionStyles: {
+              duration: 100,
+              common: { fontFamily: "monospace" },
+            },
+            withArrow: true,
+          },
         }}
       />
     </div>
