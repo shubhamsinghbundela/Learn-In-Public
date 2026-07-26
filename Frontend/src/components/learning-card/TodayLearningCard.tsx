@@ -69,6 +69,7 @@ import LearningCard from "./LearningCard";
 
 export default function TodayLearningCard() {
   const todayLearnings = useDashboardStore((state) => state.todayLearnings);
+  console.log("todayLearnings", todayLearnings);
   return (
     <div className="mx-auto rounded-xl border bg-white shadow-sm">
       <div className="flex items-center gap-2 border-b border-[#1c398e]/20 pl-5 pt-2 pb-3">
@@ -93,7 +94,7 @@ export default function TodayLearningCard() {
               key={learning._id}
               title={learning.title}
               description={learning.description}
-              createdAt={learning.createdAt}
+              localCreatedAt={learning.localCreatedAt}
             />
           ))
         )}

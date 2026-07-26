@@ -4,6 +4,8 @@ interface Learning {
   _id: string;
   title: string;
   description: string;
+  learningDate: string;
+  localCreatedAt: string;
   createdAt: string;
 }
 
@@ -12,6 +14,8 @@ interface Goal {
   title: string;
   description: string;
   completed: boolean;
+  goalDate: string;
+  createdAt: string;
 }
 
 interface Heatmap {

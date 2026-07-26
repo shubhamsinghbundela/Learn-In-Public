@@ -4,21 +4,15 @@ import { useState } from "react";
 interface LearningCardProps {
   title: string;
   description: string;
-  createdAt: string;
+  localCreatedAt: string;
 }
 
 export default function LearningCard({
   title,
   description,
-  createdAt,
+  localCreatedAt,
 }: LearningCardProps) {
   const [expanded, setExpanded] = useState(false);
-
-  const formattedTime = new Date(createdAt).toLocaleTimeString("en-IN", {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: true,
-  });
 
   const MAX_LENGTH = 180;
   const isLong = description.length > MAX_LENGTH;
@@ -54,7 +48,7 @@ export default function LearningCard({
         </div>
 
         <span className="shrink-0 text-sm font-medium text-[#1c398e]/70">
-          {formattedTime}
+          {localCreatedAt}
         </span>
       </div>
     </div>
