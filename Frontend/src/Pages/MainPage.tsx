@@ -9,8 +9,8 @@ import { clearTokens, getAccessToken } from "@/utils/token";
 import AddLearningDialog from "@/components/dialogs/AddLearningDialog";
 import CreateGoalDialog from "@/components/dialogs/CreateGoalDialog";
 import { showToast } from "@/utils/toast";
-import TodayLearningCard from "@/components/learning/TodayLearningCard";
-import ConsistencyCard from "@/components/consistency/ConsistencyCard";
+import TodayLearningCard from "@/components/learning-card/TodayLearningCard";
+import ConsistencyCard from "@/components/consistency-streak-card/ConsistencyCard";
 import { useDashboardStore } from "@/store/dashboardStore";
 import { useParams } from "react-router-dom";
 
