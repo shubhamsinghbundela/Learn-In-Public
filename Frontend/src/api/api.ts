@@ -63,3 +63,7 @@ export const getPublicDashboard = async (username: string, date: string) => {
 
   return res.data;
 };
+
+export const getHeatmap = () => {
+  return api.get("/heatmap/getHeatmap");
+};

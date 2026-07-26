@@ -1,6 +1,7 @@
 import ApiError from "../../common/utils/api-error";
 import userModel from "../auth/auth.model";
 import goalModel from "../goal/goal.model";
+import heatmapModel from "../heatmap/heatmap.model";
 import learningModel from "../learning/learning.model";
 
 interface GetDashboardInput {
@@ -26,7 +27,7 @@ const getDashboard = async (data: GetDashboardInput) => {
   const endOfDay = new Date(selectedDate);
   endOfDay.setHours(23, 59, 59, 999);
 
-  const [user, learnings, goals] = await Promise.all([
+  const [user, learnings, goals, heatmap] = await Promise.all([
     userModel.findById(data.userId),
     learningModel.find({
       userId: data.userId,
@@ -42,6 +43,7 @@ const getDashboard = async (data: GetDashboardInput) => {
         $lte: endOfDay,
       },
     }),
+    heatmapModel.find({ userId: data.userId }).sort({ date: 1 }),
   ]);
 
   if (!user) {
@@ -61,6 +63,7 @@ const getDashboard = async (data: GetDashboardInput) => {
     },
     todayLearnings: learnings,
     goals,
+    heatmap,
   };
 };
 
@@ -85,7 +88,7 @@ const getPublicDashboard = async (data: GetPublicDashboardInput) => {
     throw ApiError.notFound("User not found");
   }
 
-  const [learnings, goals] = await Promise.all([
+  const [learnings, goals, heatmap] = await Promise.all([
     learningModel.find({
       userId: user._id,
       createdAt: {
@@ -100,6 +103,7 @@ const getPublicDashboard = async (data: GetPublicDashboardInput) => {
         $lte: endOfDay,
       },
     }),
+    heatmapModel.find({ userId: user._id }).sort({ date: 1 }),
   ]);
 
   return {
@@ -114,6 +118,7 @@ const getPublicDashboard = async (data: GetPublicDashboardInput) => {
     },
     todayLearnings: learnings,
     goals,
+    heatmap,
   };
 };
 

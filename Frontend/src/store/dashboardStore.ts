@@ -14,17 +14,25 @@ interface Goal {
   completed: boolean;
 }
 
+interface Heatmap {
+  date: string;
+  count: number;
+  level: number;
+}
+
 interface DashboardState {
   currentStreak: number;
   longestStreak: number;
   todayLearnings: Learning[];
   goals: Goal[];
+  heatmap: Heatmap[];
 
   setDashboard: (data: {
     currentStreak: number;
     longestStreak: number;
     todayLearnings: Learning[];
     goals: Goal[];
+    heatmap: Heatmap[];
   }) => void;
 
   clearDashboard: () => void;
@@ -35,6 +43,7 @@ export const useDashboardStore = create<DashboardState>((set) => ({
   longestStreak: 0,
   todayLearnings: [],
   goals: [],
+  heatmap: [],
 
   setDashboard: (data) =>
     set({
@@ -42,6 +51,7 @@ export const useDashboardStore = create<DashboardState>((set) => ({
       longestStreak: data.longestStreak,
       todayLearnings: data.todayLearnings,
       goals: data.goals,
+      heatmap: data.heatmap,
     }),
 
   clearDashboard: () =>
@@ -50,5 +60,6 @@ export const useDashboardStore = create<DashboardState>((set) => ({
       longestStreak: 0,
       todayLearnings: [],
       goals: [],
+      heatmap: [],
     }),
 }));

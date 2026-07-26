@@ -61,6 +61,7 @@ export default function MainPage() {
         longestStreak: res.data.streak.longestStreak,
         todayLearnings: res.data.todayLearnings,
         goals: res.data.goals,
+        heatmap: res.data.heatmap,
       });
     } catch (error) {
       console.error(error);
@@ -79,6 +80,7 @@ export default function MainPage() {
         longestStreak: res.data.streak.longestStreak,
         todayLearnings: res.data.todayLearnings,
         goals: res.data.goals,
+        heatmap: res.data.heatmap,
       });
     } catch (error) {
       console.error(error);

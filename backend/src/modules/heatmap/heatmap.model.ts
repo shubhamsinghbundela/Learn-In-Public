@@ -32,7 +32,6 @@ const heatmapSchema = new mongoose.Schema(
   },
 );
 
-// For the same userId and date, there can be only one document.
 heatmapSchema.index(
   {
     userId: 1,
