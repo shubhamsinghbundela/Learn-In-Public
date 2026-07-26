@@ -13,6 +13,7 @@ import TodayLearningCard from "@/components/learning-card/TodayLearningCard";
 import ConsistencyCard from "@/components/consistency-streak-card/ConsistencyCard";
 import { useDashboardStore } from "@/store/dashboardStore";
 import { useParams } from "react-router-dom";
+import ContributionGraph from "@/components/contribution-graph/ContributionGraph";
 
 export default function MainPage() {
   const { username } = useParams();
@@ -146,6 +147,10 @@ export default function MainPage() {
             <div className="w-1/2">
               <ConsistencyCard />
             </div>
+          </div>
+
+          <div className="mt-8">
+            <ContributionGraph />
           </div>
         </main>
       </div>
