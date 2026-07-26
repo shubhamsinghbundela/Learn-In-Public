@@ -15,33 +15,21 @@ interface GetPublicDashboardInput {
 }
 
 const getDashboard = async (data: GetDashboardInput) => {
-  const selectedDate = new Date(data.date);
+  const selectedDate = data.date;
 
-  if (isNaN(selectedDate.getTime())) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(selectedDate)) {
     throw ApiError.badRequest("Invalid date");
   }
-
-  const startOfDay = new Date(selectedDate);
-  startOfDay.setHours(0, 0, 0, 0);
-
-  const endOfDay = new Date(selectedDate);
-  endOfDay.setHours(23, 59, 59, 999);
 
   const [user, learnings, goals, heatmap] = await Promise.all([
     userModel.findById(data.userId),
     learningModel.find({
       userId: data.userId,
-      createdAt: {
-        $gte: startOfDay,
-        $lte: endOfDay,
-      },
+      learningDate: selectedDate,
     }),
     goalModel.find({
       userId: data.userId,
-      createdAt: {
-        $gte: startOfDay,
-        $lte: endOfDay,
-      },
+      goalDate: selectedDate,
     }),
     heatmapModel.find({ userId: data.userId }).sort({ date: 1 }),
   ]);
@@ -68,17 +56,11 @@ const getDashboard = async (data: GetDashboardInput) => {
 };
 
 const getPublicDashboard = async (data: GetPublicDashboardInput) => {
-  const selectedDate = new Date(data.date);
+  const selectedDate = data.date;
 
-  if (isNaN(selectedDate.getTime())) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(selectedDate)) {
     throw ApiError.badRequest("Invalid date");
   }
-
-  const startOfDay = new Date(selectedDate);
-  startOfDay.setHours(0, 0, 0, 0);
-
-  const endOfDay = new Date(selectedDate);
-  endOfDay.setHours(23, 59, 59, 999);
 
   const user = await userModel.findOne({
     username: data.username,
@@ -91,17 +73,11 @@ const getPublicDashboard = async (data: GetPublicDashboardInput) => {
   const [learnings, goals, heatmap] = await Promise.all([
     learningModel.find({
       userId: user._id,
-      createdAt: {
-        $gte: startOfDay,
-        $lte: endOfDay,
-      },
+      learningDate: selectedDate,
     }),
     goalModel.find({
       userId: user._id,
-      createdAt: {
-        $gte: startOfDay,
-        $lte: endOfDay,
-      },
+      goalDate: selectedDate,
     }),
     heatmapModel.find({ userId: user._id }).sort({ date: 1 }),
   ]);

@@ -14,6 +14,7 @@ import ConsistencyCard from "@/components/consistency-streak-card/ConsistencyCar
 import { useDashboardStore } from "@/store/dashboardStore";
 import { useParams } from "react-router-dom";
 import ContributionGraph from "@/components/contribution-graph/ContributionGraph";
+import { formatInTimeZone } from "date-fns-tz";
 
 export default function MainPage() {
   const { username } = useParams();
@@ -52,7 +53,7 @@ export default function MainPage() {
   const fetchPublicDashboard = async () => {
     clearDashboard();
     try {
-      const today = new Date().toISOString();
+      const today = formatInTimeZone(new Date(), "Asia/Kolkata", "yyyy-MM-dd");
 
       const res = await getPublicDashboard(username!, today);
 
@@ -71,7 +72,7 @@ export default function MainPage() {
   const fetchDashboard = async () => {
     clearDashboard();
     try {
-      const today = new Date().toISOString();
+      const today = formatInTimeZone(new Date(), "Asia/Kolkata", "yyyy-MM-dd");
 
       const res = await getDashboard(today);
 
