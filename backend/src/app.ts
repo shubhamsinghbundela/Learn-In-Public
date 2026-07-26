@@ -4,6 +4,7 @@ import authRoute from "./modules/auth/auth.routes.ts";
 import learningRoute from "./modules/learning/learning.routes.ts";
 import goalRoute from "./modules/goal/goal.routes.ts";
 import dashboardRoute from "./modules/dashboard/dashboard.routes.ts";
+import heatmapRoute from "./modules/heatmap/heatmap.routes.ts";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 
@@ -30,6 +31,7 @@ app.use("/api/auth", authRoute);
 app.use("/api/learning", learningRoute);
 app.use("/api/goal", goalRoute);
 app.use("/api/dashboard", dashboardRoute);
+app.use("/api/heatmap", heatmapRoute);
 
 app.use(errorHandler);
 

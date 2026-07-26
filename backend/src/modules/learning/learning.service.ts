@@ -1,12 +1,22 @@
 import mongoose from "mongoose";
 import userModel from "../auth/auth.model";
 import learningModel from "./learning.model";
+import heatmapModel from "../heatmap/heatmap.model";
 
 interface AddLearningInput {
   userId: string;
   title: string;
   description: string;
 }
+
+const getLevel = (count: number) => {
+  if (count === 0) return 0;
+  if (count === 1) return 1;
+  if (count <= 3) return 2;
+  if (count <= 5) return 3;
+
+  return 4;
+};
 
 const addLearning = async (data: AddLearningInput) => {
   const session = await mongoose.startSession();
@@ -23,6 +33,35 @@ const addLearning = async (data: AddLearningInput) => {
 
     const today = new Date();
     today.setHours(0, 0, 0, 0);
+
+    const todayDate = today.toISOString().split("T")[0];
+
+    // Update heatmap
+    const heatmap = await heatmapModel
+      .findOne({
+        userId: data.userId,
+        date: todayDate,
+      })
+      .session(session);
+
+    if (!heatmap) {
+      await heatmapModel.create(
+        [
+          {
+            userId: data.userId,
+            date: todayDate,
+            count: 1,
+            level: getLevel(1),
+          },
+        ],
+        { session },
+      );
+    } else {
+      heatmap.count += 1;
+      heatmap.level = getLevel(heatmap.count);
+
+      await heatmap.save({ session });
+    }
 
     if (!user.lastLearningDate) {
       // First learning
