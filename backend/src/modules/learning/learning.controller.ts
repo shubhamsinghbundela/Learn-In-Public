@@ -17,10 +17,12 @@ const addLearning = async (
     if (!userId) {
       throw ApiError.unauthorized("Unauthorized User");
     }
+    const timezone = req.header("x-timezone") || "UTC";
     const learningData = await learningService.addLearning({
       userId,
       title: req.body.title,
       description: req.body.description,
+      timezone,
     });
 
     ApiResponse.created(res, "Added learning", learningData);

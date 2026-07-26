@@ -1,12 +1,16 @@
 import mongoose from "mongoose";
+import { formatInTimeZone } from "date-fns-tz";
+
 import userModel from "../auth/auth.model";
 import learningModel from "./learning.model";
 import heatmapModel from "../heatmap/heatmap.model";
+import { differenceInCalendarDays, parseISO } from "date-fns";
 
 interface AddLearningInput {
   userId: string;
   title: string;
   description: string;
+  timezone: string;
 }
 
 const getLevel = (count: number) => {
@@ -21,7 +25,7 @@ const getLevel = (count: number) => {
 const addLearning = async (data: AddLearningInput) => {
   const session = await mongoose.startSession();
   try {
-    session.startTransaction();
+    await session.startTransaction();
 
     const user = await userModel.findById(data.userId).session(session);
 
@@ -29,14 +33,27 @@ const addLearning = async (data: AddLearningInput) => {
       throw new Error("User not found");
     }
 
-    const learning = await learningModel.create([data], { session });
+    const now = new Date();
 
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    const todayDate = formatInTimeZone(now, data.timezone, "yyyy-MM-dd");
+    const localCreatedAt = formatInTimeZone(now, data.timezone, "HH:mm:ss");
 
-    const todayDate = today.toISOString().split("T")[0];
+    // add learning in DB
+    const learning = await learningModel.create(
+      [
+        {
+          userId: data.userId,
+          title: data.title,
+          description: data.description,
+          learningDate: todayDate,
+          localCreatedAt,
+        },
+      ],
+      { session },
+    );
 
-    // Update heatmap
+    // Heatmap
+    // find all heatmap of todayDate because many learning i publish today
     const heatmap = await heatmapModel
       .findOne({
         userId: data.userId,
@@ -45,6 +62,7 @@ const addLearning = async (data: AddLearningInput) => {
       .session(session);
 
     if (!heatmap) {
+      // if heatmap not exist of particular day
       await heatmapModel.create(
         [
           {
@@ -57,26 +75,29 @@ const addLearning = async (data: AddLearningInput) => {
         { session },
       );
     } else {
+      // if heatmap exist of particular day just increase count i.e. number of learning publish
       heatmap.count += 1;
       heatmap.level = getLevel(heatmap.count);
 
       await heatmap.save({ session });
     }
 
+    // Streak calculation
     if (!user.lastLearningDate) {
-      // First learning
+      // if first time publishing learning
       user.currentStreak = 1;
       user.longestStreak = 1;
     } else {
-      const lastLearningDate = new Date(user.lastLearningDate);
-      lastLearningDate.setHours(0, 0, 0, 0);
-
-      const diffDays =
-        (today.getTime() - lastLearningDate.getTime()) / (1000 * 60 * 60 * 24);
+      // if again publishing learning
+      const diffDays = differenceInCalendarDays(
+        parseISO(todayDate),
+        parseISO(user.lastLearningDate),
+      );
 
       if (diffDays === 0) {
-        // Already added today
+        // Already learned today i.e streak will be same because same day
       } else if (diffDays === 1) {
+        // streak will increase if learning published before
         user.currentStreak += 1;
         user.longestStreak = Math.max(user.longestStreak, user.currentStreak);
       } else {
@@ -85,7 +106,8 @@ const addLearning = async (data: AddLearningInput) => {
       }
     }
 
-    user.lastLearningDate = today;
+    // Always update lastLearningDate
+    user.lastLearningDate = todayDate;
 
     await user.save({ session });
 

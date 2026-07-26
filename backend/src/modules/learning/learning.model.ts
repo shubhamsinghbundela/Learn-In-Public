@@ -20,6 +20,17 @@ const learningSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+
+    learningDate: {
+      type: String,
+      required: true,
+      index: true,
+    },
+
+    localCreatedAt: {
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true,
