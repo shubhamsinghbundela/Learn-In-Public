@@ -55,3 +55,11 @@ export const getDashboard = async (date: string) => {
 
   return res.data;
 };
+
+export const getPublicDashboard = async (username: string, date: string) => {
+  const res = await api.get(`/dashboard/public/${username}`, {
+    params: { date },
+  });
+
+  return res.data;
+};

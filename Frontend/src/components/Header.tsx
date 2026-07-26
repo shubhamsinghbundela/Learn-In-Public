@@ -13,12 +13,14 @@ import { logout } from "@/api/api";
 import { showToast } from "@/utils/toast";
 
 interface HeaderProps {
+  isPublicPage?: boolean;
   onSignIn: () => void;
   onAddLearning: () => void;
   onCreateGoal: () => void;
 }
 
 export default function Header({
+  isPublicPage,
   onSignIn,
   onAddLearning,
   onCreateGoal,
@@ -39,7 +41,7 @@ export default function Header({
   };
 
   const handleCopyProfile = async () => {
-    if (!user) return;
+    if (!user?.username) return;
 
     const url = `${window.location.origin}/${user.username}`;
 
@@ -72,60 +74,67 @@ export default function Header({
 
         {/* Actions */}
         <div className="flex items-center gap-3">
-          {token && user && (
-            <Button
-              variant="outline"
-              onClick={handleCopyProfile}
-              className="border-[#1c398e] text-[#1c398e] hover:bg-[#1c398e] hover:text-white"
-            >
-              <Copy className="mr-2 h-4 w-4" />
-              Share Profile
-            </Button>
-          )}
-          <Button
-            variant="outline"
-            onClick={onAddLearning}
-            className="border-[#1c398e] text-[#1c398e] hover:bg-[#1c398e] hover:text-white"
-          >
-            Add Learning
-          </Button>
+          {!isPublicPage && (
+            <>
+              {token && user && (
+                <>
+                  <Button
+                    variant="outline"
+                    onClick={handleCopyProfile}
+                    className="border-[#1c398e] text-[#1c398e] hover:bg-[#1c398e] hover:text-white"
+                  >
+                    <Copy className="mr-2 h-4 w-4" />
+                    Share Profile
+                  </Button>
 
-          <Button
-            variant="outline"
-            onClick={onCreateGoal}
-            className="border-[#1c398e] text-[#1c398e] hover:bg-[#1c398e] hover:text-white"
-          >
-            Create Goal
-          </Button>
+                  <Button
+                    variant="outline"
+                    onClick={onAddLearning}
+                    className="border-[#1c398e] text-[#1c398e] hover:bg-[#1c398e] hover:text-white"
+                  >
+                    Add Learning
+                  </Button>
 
-          {token && user ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger>
-                <Avatar className="cursor-pointer border-1 border-[#1c398e]">
-                  <AvatarFallback className="bg-white text-[#1c398e]">
-                    {`${user.firstName[0]}${user.lastName[0]}`}
-                  </AvatarFallback>
-                </Avatar>
-              </DropdownMenuTrigger>
+                  <Button
+                    variant="outline"
+                    onClick={onCreateGoal}
+                    className="border-[#1c398e] text-[#1c398e] hover:bg-[#1c398e] hover:text-white"
+                  >
+                    Create Goal
+                  </Button>
+                </>
+              )}
 
-              <DropdownMenuContent className="w-44 border-[#1c398e]">
-                <DropdownMenuItem
-                  onClick={handleLogout}
-                  className="cursor-pointer text-[#1c398e] focus:bg-[#1c398e] focus:text-white"
+              {token && user ? (
+                <DropdownMenu>
+                  <DropdownMenuTrigger>
+                    <Avatar className="cursor-pointer border border-[#1c398e]">
+                      <AvatarFallback className="bg-white text-[#1c398e]">
+                        {`${user.firstName[0]}${user.lastName[0]}`}
+                      </AvatarFallback>
+                    </Avatar>
+                  </DropdownMenuTrigger>
+
+                  <DropdownMenuContent className="w-44 border-[#1c398e]">
+                    <DropdownMenuItem
+                      onClick={handleLogout}
+                      className="cursor-pointer text-[#1c398e] focus:bg-[#1c398e] focus:text-white"
+                    >
+                      <LogOut className="mr-2 h-4 w-4" />
+                      Logout
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <Button
+                  variant="outline"
+                  onClick={onSignIn}
+                  className="border-[#1c398e] text-[#1c398e] hover:bg-[#1c398e] hover:text-white"
                 >
-                  <LogOut />
-                  Logout
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          ) : (
-            <Button
-              variant="outline"
-              onClick={onSignIn}
-              className="border-[#1c398e] text-[#1c398e] hover:bg-[#1c398e] hover:text-white"
-            >
-              Sign In
-            </Button>
+                  Sign In
+                </Button>
+              )}
+            </>
           )}
         </div>
       </header>

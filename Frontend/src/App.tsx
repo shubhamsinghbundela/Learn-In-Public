@@ -14,6 +14,7 @@ function App() {
         <BrowserRouter basename="/">
           <Routes>
             <Route path="/" element={<MainPage />} />
+            <Route path="/:username" element={<MainPage />} />
           </Routes>
         </BrowserRouter>
       </Toaster>

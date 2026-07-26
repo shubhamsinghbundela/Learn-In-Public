@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Header from "@/components/Header";
 import SignInDialog from "@/components/dialogs/SignInDialog";
 import SignUpDialog from "@/components/dialogs/SignUpDialog";
-import { getDashboard, getMe } from "@/api/api";
+import { getDashboard, getMe, getPublicDashboard } from "@/api/api";
 import { useUserStore } from "@/store/userStore";
 import { clearTokens, getAccessToken } from "@/utils/token";
 import AddLearningDialog from "@/components/dialogs/AddLearningDialog";
@@ -12,8 +12,11 @@ import { showToast } from "@/utils/toast";
 import TodayLearningCard from "@/components/learning/TodayLearningCard";
 import ConsistencyCard from "@/components/consistency/ConsistencyCard";
 import { useDashboardStore } from "@/store/dashboardStore";
+import { useParams } from "react-router-dom";
 
 export default function MainPage() {
+  const { username } = useParams();
+  const isPublicPage = !!username;
   const [signInOpen, setSignInOpen] = useState(false);
   const [signUpOpen, setSignUpOpen] = useState(false);
   const [addLearningOpen, setAddLearningOpen] = useState(false);
@@ -28,18 +31,43 @@ export default function MainPage() {
   const clearDashboard = useDashboardStore((state) => state.clearDashboard);
 
   useEffect(() => {
-    fetchUser();
-  }, []);
+    if (isPublicPage) {
+      fetchPublicDashboard();
+    } else {
+      fetchUser();
+    }
+  }, [username]);
 
   useEffect(() => {
+    if (isPublicPage) return;
+
     if (user) {
       fetchDashboard();
     } else {
       clearDashboard();
     }
-  }, [user]);
+  }, [user, isPublicPage]);
+
+  const fetchPublicDashboard = async () => {
+    clearDashboard();
+    try {
+      const today = new Date().toISOString();
+
+      const res = await getPublicDashboard(username!, today);
+
+      setDashboard({
+        currentStreak: res.data.streak.currentStreak,
+        longestStreak: res.data.streak.longestStreak,
+        todayLearnings: res.data.todayLearnings,
+        goals: res.data.goals,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const fetchDashboard = async () => {
+    clearDashboard();
     try {
       const today = new Date().toISOString();
 
@@ -104,6 +132,7 @@ export default function MainPage() {
     <>
       <div className="min-h-screen bg-white">
         <Header
+          isPublicPage={isPublicPage}
           onSignIn={() => setSignInOpen(true)}
           onAddLearning={handleAddLearning}
           onCreateGoal={handleCreateGoal}
