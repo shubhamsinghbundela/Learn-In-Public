@@ -25,6 +25,12 @@ const goalSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+
+    goalDate: {
+      type: String,
+      required: true,
+      index: true,
+    },
   },
   {
     timestamps: true,

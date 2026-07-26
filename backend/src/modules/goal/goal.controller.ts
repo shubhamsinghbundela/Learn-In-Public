@@ -17,10 +17,12 @@ const createGoal = async (
     if (!userId) {
       throw ApiError.unauthorized("Unauthorized User");
     }
+    const timezone = req.header("x-timezone") || "UTC";
     const goal = await goalService.createGoal({
       userId,
       title: req.body.title,
       description: req.body.description,
+      timezone,
     });
 
     ApiResponse.created(res, "Goal created successfully", goal);
