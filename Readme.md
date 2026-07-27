@@ -36,3 +36,5 @@ A full-stack web application that allows users to publicly track what they're le
 ## Dashboard Flow
 
 **Architecture Diagram:** https://excalidraw.com/#json=-qP3PSEudwkvE9NmSQ_PS,sHP9a-Zs-MJjjL4gtmHCFg
+
+<img width="14102" height="6722" alt="image" src="https://github.com/user-attachments/assets/df30fc64-a982-4f66-9f64-a6777411d846" />
