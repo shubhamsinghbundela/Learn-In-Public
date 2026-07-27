@@ -38,3 +38,16 @@ A full-stack web application that allows users to publicly track what they're le
 **Architecture Diagram:** https://excalidraw.com/#json=-qP3PSEudwkvE9NmSQ_PS,sHP9a-Zs-MJjjL4gtmHCFg
 
 <img width="14102" height="6722" alt="image" src="https://github.com/user-attachments/assets/df30fc64-a982-4f66-9f64-a6777411d846" />
+
+---
+
+## Getting Started
+
+To run this project locally, follow the setup instructions in the Docker guide:
+
+- 🐳 **Docker Setup:** [docker.md](./docker.md)
+
+The guide includes:
+- Manual Docker setup
+- Docker Compose setup
+- Common troubleshooting steps
