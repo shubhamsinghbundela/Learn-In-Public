@@ -68,7 +68,7 @@ export default function Header({
           />
 
           <h1 className="text-2xl font-bold tracking-tight text-[#1c398e]">
-            Team Shiksha
+            Learn In Public
           </h1>
         </div>
 
