@@ -48,6 +48,23 @@ To run this project locally, follow the setup instructions in the Docker guide:
 - 🐳 **Docker Setup:** [docker.md](./docker.md)
 
 The guide includes:
+
 - Manual Docker setup
 - Docker Compose setup
 - Common troubleshooting steps
+
+## Environment Variables
+
+Before running the project, create the following files:
+
+### Backend
+
+```bash
+cp backend/.env.example backend/.env
+```
+
+### Frontend
+
+```bash
+cp frontend/.env.example frontend/.env
+```
