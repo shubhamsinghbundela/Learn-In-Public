@@ -12,6 +12,8 @@ A full-stack web application that allows users to publicly track what they're le
 ## Authentication Flow
 
 **Architecture Diagram:** https://excalidraw.com/#json=WBEVncvcwdLnNqYOeoHT8,AlUMK4bB0zRLznLq0ByXyA
+<img width="17591" height="9397" alt="image" src="https://github.com/user-attachments/assets/6ad6a6c1-915c-477f-9f3c-9a283cf017f4" />
+
 
 ---
 
