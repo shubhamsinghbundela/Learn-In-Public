@@ -62,9 +62,3 @@ Before running the project, create the following files:
 ```bash
 cp backend/.env.example backend/.env
 ```
-
-### Frontend
-
-```bash
-cp frontend/.env.example frontend/.env
-```
