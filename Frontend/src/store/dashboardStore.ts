@@ -1,3 +1,4 @@
+import { formatInTimeZone } from "date-fns-tz";
 import { create } from "zustand";
 
 interface Learning {
@@ -30,6 +31,9 @@ interface DashboardState {
   todayLearnings: Learning[];
   goals: Goal[];
   heatmap: Heatmap[];
+  selectedDate: string;
+
+  setSelectedDate: (date: string) => void;
 
   setDashboard: (data: {
     currentStreak: number;
@@ -48,6 +52,12 @@ export const useDashboardStore = create<DashboardState>((set) => ({
   todayLearnings: [],
   goals: [],
   heatmap: [],
+  selectedDate: formatInTimeZone(new Date(), "Asia/Kolkata", "yyyy-MM-dd"),
+
+  setSelectedDate: (date) =>
+    set({
+      selectedDate: date,
+    }),
 
   setDashboard: (data) =>
     set({

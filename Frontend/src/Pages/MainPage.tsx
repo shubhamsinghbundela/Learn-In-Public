@@ -14,7 +14,6 @@ import ConsistencyCard from "@/components/consistency-streak-card/ConsistencyCar
 import { useDashboardStore } from "@/store/dashboardStore";
 import { useParams } from "react-router-dom";
 import ContributionGraph from "@/components/contribution-graph/ContributionGraph";
-import { formatInTimeZone } from "date-fns-tz";
 
 export default function MainPage() {
   const { username } = useParams();
@@ -27,35 +26,36 @@ export default function MainPage() {
   const addUser = useUserStore((state) => state.addUser);
   const removeUser = useUserStore((state) => state.removeUser);
 
+  const selectedDate = useDashboardStore((state) => state.selectedDate);
+
   const setDashboard = useDashboardStore((state) => state.setDashboard);
   const user = useUserStore((state) => state.user);
 
   const clearDashboard = useDashboardStore((state) => state.clearDashboard);
 
-  useEffect(() => {
-    if (isPublicPage) {
-      fetchPublicDashboard();
-    } else {
-      fetchUser();
-    }
-  }, [username]);
-
+  // Load user only once
   useEffect(() => {
     if (isPublicPage) return;
 
-    if (user) {
-      fetchDashboard();
-    } else {
-      clearDashboard();
-    }
-  }, [user, isPublicPage]);
+    fetchUser();
+  }, []);
 
-  const fetchPublicDashboard = async () => {
+  // Fetch dashboard whenever dependencies change
+  useEffect(() => {
+    if (isPublicPage) {
+      fetchPublicDashboard(selectedDate);
+      return;
+    }
+
+    if (!user) return;
+
+    fetchDashboard(selectedDate);
+  }, [selectedDate, user, isPublicPage, username]);
+
+  const fetchPublicDashboard = async (date: string) => {
     clearDashboard();
     try {
-      const today = formatInTimeZone(new Date(), "Asia/Kolkata", "yyyy-MM-dd");
-
-      const res = await getPublicDashboard(username!, today);
+      const res = await getPublicDashboard(username!, date);
 
       setDashboard({
         currentStreak: res.data.streak.currentStreak,
@@ -69,12 +69,10 @@ export default function MainPage() {
     }
   };
 
-  const fetchDashboard = async () => {
+  const fetchDashboard = async (date: string) => {
     clearDashboard();
     try {
-      const today = formatInTimeZone(new Date(), "Asia/Kolkata", "yyyy-MM-dd");
-
-      const res = await getDashboard(today);
+      const res = await getDashboard(date);
 
       setDashboard({
         currentStreak: res.data.streak.currentStreak,
@@ -98,8 +96,8 @@ export default function MainPage() {
 
       addUser(res.data.user);
 
-      await fetchDashboard();
-    } catch {
+      // await fetchDashboard(selectedDate);
+    } catch (error) {
       clearTokens();
       removeUser();
     }
@@ -179,13 +177,13 @@ export default function MainPage() {
       <AddLearningDialog
         open={addLearningOpen}
         onOpenChange={setAddLearningOpen}
-        onSuccess={fetchDashboard}
+        onSuccess={() => fetchDashboard(selectedDate)}
       />
 
       <CreateGoalDialog
         open={createGoalOpen}
         onOpenChange={setCreateGoalOpen}
-        onSuccess={fetchDashboard}
+        onSuccess={() => fetchDashboard(selectedDate)}
       />
     </>
   );

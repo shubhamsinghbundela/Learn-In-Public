@@ -1,4 +1,5 @@
 import { useDashboardStore } from "@/store/dashboardStore";
+import { cloneElement } from "react";
 import { ActivityCalendar } from "react-activity-calendar";
 import "react-activity-calendar/tooltips.css";
 
@@ -11,6 +12,7 @@ export default function ContributionGraph() {
     },
   ];
   const heatmapData = useDashboardStore((state) => state.heatmap);
+  const setSelectedDate = useDashboardStore((state) => state.setSelectedDate);
 
   return (
     <div className="rounded-xl border bg-white p-6 shadow-sm">
@@ -25,6 +27,16 @@ export default function ContributionGraph() {
 
       <ActivityCalendar
         data={heatmapData.length ? heatmapData : fallback}
+        renderBlock={(block, activity) =>
+          cloneElement(block, {
+            onClick: () => {
+              setSelectedDate(activity.date);
+            },
+            style: {
+              cursor: "pointer",
+            },
+          })
+        }
         blockSize={14}
         blockMargin={4}
         showWeekdayLabels

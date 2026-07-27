@@ -69,6 +69,7 @@ import LearningCard from "./LearningCard";
 
 export default function TodayLearningCard() {
   const todayLearnings = useDashboardStore((state) => state.todayLearnings);
+  const selectedDate = useDashboardStore((state) => state.selectedDate);
   return (
     <div className="mx-auto rounded-xl border bg-white shadow-sm">
       <div className="flex items-center gap-2 border-b border-[#1c398e]/20 pl-5 pt-2 pb-3">
@@ -77,7 +78,7 @@ export default function TodayLearningCard() {
             Today's Learning
           </h2>
           <p className="text-sm text-[#1c398e]/70">
-            {new Date().toDateString()}
+            {new Date(selectedDate).toDateString()}
           </p>
         </div>
       </div>
