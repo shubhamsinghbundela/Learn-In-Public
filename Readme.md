@@ -31,5 +31,8 @@ A full-stack web application that allows users to publicly track what they're le
 
 <img width="14070" height="6530" alt="image" src="https://github.com/user-attachments/assets/40ce5b89-65e8-400d-bd3a-d7784dfa90d4" />
 
+---
 
+## Dashboard Flow
 
+**Architecture Diagram:** https://excalidraw.com/#json=-qP3PSEudwkvE9NmSQ_PS,sHP9a-Zs-MJjjL4gtmHCFg
