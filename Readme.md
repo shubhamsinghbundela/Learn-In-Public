@@ -13,12 +13,23 @@ A full-stack web application that allows users to publicly track what they're le
 
 **Architecture Diagram:** https://excalidraw.com/#json=WBEVncvcwdLnNqYOeoHT8,AlUMK4bB0zRLznLq0ByXyA
 
+<img width="17591" height="9397" alt="image" src="https://github.com/user-attachments/assets/6ad6a6c1-915c-477f-9f3c-9a283cf017f4" />
+
 ---
 
 ## Add Learning Flow
 
 **Architecture Diagram:** https://excalidraw.com/#json=WBEVncvcwdLnNqYOeoHT8,AlUMK4bB0zRLznLq0ByXyA
 
+<img width="14192" height="6542" alt="image" src="https://github.com/user-attachments/assets/6eec11ac-9b37-4d31-9d3e-7298c99d2217" />
+
+---
+
 ## Create Goal Flow
 
 **Architecture Diagram:** https://excalidraw.com/#json=Gdq_3MImYuZJfPisqUPBe,RDl6QLCqwN-GNJE0JYz-pQ
+
+<img width="14070" height="6530" alt="image" src="https://github.com/user-attachments/assets/40ce5b89-65e8-400d-bd3a-d7784dfa90d4" />
+
+
+
