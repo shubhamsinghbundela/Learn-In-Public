@@ -11,7 +11,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: true,
+    origin: "https://learn-in-public-teamshiksha.vercel.app",
     credentials: true,
   }),
 );
