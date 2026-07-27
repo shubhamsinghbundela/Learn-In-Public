@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { useLoadingStore } from "@/store/loadingStore";
 import { showToast } from "@/utils/toast";
 import { createGoal } from "@/api/api";
+import { Textarea } from "../ui/textarea";
 
 interface CreateGoalForm {
   title: string;
@@ -100,8 +101,9 @@ export default function CreateGoalDialog({
         <div className="space-y-2">
           <Label>Description</Label>
 
-          <textarea
-            rows={5}
+          <Textarea
+            rows={8}
+            className="h-48 resize-none overflow-y-auto"
             placeholder="Describe your goal..."
             {...register("description")}
           />

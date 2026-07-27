@@ -6,6 +6,7 @@ import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import CommonDialog from "../common/CommonDialog";
 import { addLearning } from "@/api/api";
+import { Textarea } from "../ui/textarea";
 
 interface AddLearningForm {
   title: string;
@@ -61,11 +62,7 @@ export default function AddLearningDialog({
       onOpenChange={onOpenChange}
       title="Add Learning"
       maxWidth="sm:max-w-2xl"
-      leftButton={
-        <Button variant="outline" type="button">
-          Upload Image
-        </Button>
-      }
+      leftButton={<div></div>}
       rightButton={
         <Button
           variant="outline"
@@ -100,8 +97,9 @@ export default function AddLearningDialog({
         <div className="space-y-2">
           <Label>Description</Label>
 
-          <textarea
+          <Textarea
             rows={8}
+            className="h-48 resize-none overflow-y-auto"
             placeholder="Share your learning..."
             {...register("description", {
               required: "Description is required",
