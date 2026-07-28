@@ -7,6 +7,18 @@ A full-stack web application that allows users to publicly track what they're le
 - **Frontend:** https://learn-in-public-teamshiksha.vercel.app
 - **Backend API:** https://learn-in-public.onrender.com
 
+---
+
+## Demo Videos (Short Video)
+
+---
+
+## Demo Videos (Short Video)
+
+https://drive.google.com/file/d/1SVK8EUhwlcClCOnW-li2NpZIP3O4yKfB/view?usp=sharing
+
+---
+
 # Architecture
 
 ## Authentication Flow
