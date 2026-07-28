@@ -13,7 +13,7 @@ A full-stack web application that allows users to publicly track what they're le
 
 ---
 
-## Demo Videos (Short Video)
+## Demo Videos (Long Video)
 
 https://drive.google.com/file/d/1SVK8EUhwlcClCOnW-li2NpZIP3O4yKfB/view?usp=sharing
 
