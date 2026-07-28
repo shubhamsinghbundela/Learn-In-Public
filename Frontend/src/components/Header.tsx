@@ -11,6 +11,7 @@ import { Avatar, AvatarFallback } from "./ui/avatar";
 import { Copy, LogOut } from "lucide-react";
 import { logout } from "@/api/api";
 import { showToast } from "@/utils/toast";
+import { useDashboardStore } from "@/store/dashboardStore";
 
 interface HeaderProps {
   isPublicPage?: boolean;
@@ -28,9 +29,11 @@ export default function Header({
   const user = useUserStore((state) => state.user);
   const token = getAccessToken();
   const removeUser = useUserStore((state) => state.removeUser);
+  const clearDashboard = useDashboardStore((state) => state.clearDashboard);
   const handleLogout = async () => {
     try {
       await logout();
+      clearDashboard();
       showToast.success("Logged Out", "See you again!");
     } catch (error) {
       // Ignore API errors
