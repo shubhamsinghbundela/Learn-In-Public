@@ -11,6 +11,8 @@ A full-stack web application that allows users to publicly track what they're le
 
 ## Demo Videos (Short Video)
 
+https://www.loom.com/share/3af1e30f11d6449f8a7e24a6bb7983e3
+
 ---
 
 ## Demo Videos (Long Video)
